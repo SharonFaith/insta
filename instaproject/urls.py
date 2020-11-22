@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
+from instaapp.views import logout_view
 
 urlpatterns = [
     path('', include('instaapp.urls')),
@@ -23,5 +24,6 @@ urlpatterns = [
 #    path('search/', include('instaapp.urls')),
     path('accounts/', include('django_registration.backends.activation.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('logout/', logout_view),
     path('admin/', admin.site.urls),
 ]
