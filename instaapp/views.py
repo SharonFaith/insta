@@ -22,8 +22,32 @@ def welcome(request):
 
 @login_required(login_url='/accounts/login')
 def index(request):
+   current_user = request.user
    users = User.objects.all()
 
    photos = Image.objects.all()
 
    return render(request, 'index.html', {'photos': photos, 'users': users})
+   
+
+
+@login_required(login_url='/accounts/login')
+def profile(request):
+
+   current_user = request.user
+   
+   profiles = Profile.objects.all()
+   current_profile = None
+
+   for profile in profiles:
+      if profile.insta_user == current_user.id:
+         current_profile = profile
+   
+   photos = Image.objects.all()
+   #user_photos = []
+
+   #for photo in photos:
+    #  if current_profile.id == photo.profile_key:
+     #    user_photos.insert(0, photo)
+   
+   return render(request, 'profile/profile.html', {'user_profile': current_profile, 'photos': photos, 'current_user':current_user })
