@@ -8,8 +8,8 @@ from django.contrib.auth.models import User
 
 
 class Profile(models.Model):
-    profile_pic = models.ImageField(upload_to = 'uploads/', default = 'pics')
-    bio = models.TextField()
+    profile_pic = models.ImageField(upload_to = 'uploads/', default = 'pics', blank =True)
+    bio = models.TextField(blank =True)
     insta_user = models.ForeignKey(User, on_delete=models.CASCADE, default = None)
 
     def save_profile(self):
@@ -28,8 +28,8 @@ class Image(models.Model):
     image_name = models.CharField(max_length=60)
     image_caption = models.TextField()
     profile_key = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    likes = models.IntegerField()
-    comments = ArrayField(ArrayField(models.TextField()))
+    likes = models.IntegerField(blank =True)
+    comments = ArrayField(ArrayField(models.TextField(blank =True)))
 
     upload_date = models.DateTimeField(auto_now_add=True)
 
