@@ -41,6 +41,60 @@ class ProfileTestClass(TestCase):
         new2 = Profile(bio = 'profile bio number 2 ')
         new2.save_profile()
 
-        Profile.update_profile(4, 'the new bio')
+        Profile.update_profile(8, 'the new bio')
        
-        self.assertEqual(Profile.objects.filter(id = 4).first().bio, 'the new bio')
+        self.assertEqual(Profile.objects.filter(id = 8).first().bio, 'the new bio')
+
+class ImageTestClass(TestCase):
+
+    def setUp(self):
+        # Creating a profile and saving it
+        self.new = Profile(bio = 'a bio')
+        self.new.save_profile()
+
+       
+
+        #creating instance of image
+        self.pic = Image(image_name = 'brown', image_caption= 'A brown picture', profile_key = self.new, likes = 2, comments = ['hello', 'how are you'])
+        print(self.pic.comments)
+
+
+
+    def tearDown(self):
+        
+        Profile.objects.all().delete()
+        Image.objects.all().delete()
+
+    def test_instance(self):
+
+        self.assertTrue(isinstance(self.pic, Image))
+
+    def test_save_image(self):
+        self.pic.save_image()
+        images = Image.objects.all()
+        self.assertTrue(len(images) > 0)
+
+    def test_delete_image(self):
+        
+        self.pic.save_image()
+        image2 = Image(image_name = 'bread', image_caption= 'A  picture', profile_key = self.new, likes = 3, comments = ['hey', 'there'])
+        image2.save_image()
+
+        image2.delete_image()
+        
+        images = Image.objects.all()
+
+        self.assertTrue(len(images) == 1)
+        
+
+    def test_update_caption(self):
+
+        self.pic.save_image()
+        image2 = Image(image_name = 'bread', image_caption= 'A  picture', profile_key = self.new, likes = 3, comments = ['hey', 'there'])
+        image2.save_image()
+        print(self.pic.id)
+        Image.update_caption(4, 'Bread is nice')
+    
+       
+        self.assertEqual(Image.objects.filter(id = 4).first().image_caption, 'Bread is nice')
+

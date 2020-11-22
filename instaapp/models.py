@@ -1,5 +1,6 @@
 from django.db import models
 import datetime as dt
+from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
 
@@ -27,11 +28,20 @@ class Image(models.Model):
     image_caption = models.TextField()
     profile_key = models.ForeignKey(Profile, on_delete=models.CASCADE)
     likes = models.IntegerField()
-    comments = models.TextField()
+    comments = ArrayField(ArrayField(models.TextField()))
 
     upload_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.image_name
 
+    def save_image(self):
+        self.save()
+
+    def delete_image(self):
+        self.delete()
    
+    @classmethod
+    def update_caption(cls, id, updates):
+        to_update = cls.objects.filter(id = id)
+        to_update.update(image_caption = updates)
