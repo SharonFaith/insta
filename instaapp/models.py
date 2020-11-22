@@ -7,9 +7,19 @@ import datetime as dt
 
 class Profile(models.Model):
 #    profile_pic = models.ImageField(upload_to = 'uploads/', default = 'pics')
-     bio = models.TextField()
+    bio = models.TextField()
 #    user = link to user model foreign key
 
+    def save_profile(self):
+        self.save()
+
+    def delete_profile(self):
+        self.delete()
+
+    @classmethod
+    def update_profile(cls, id, updates):
+        to_update = cls.objects.filter(id = id)
+        to_update.update(bio = updates)
 
 class Image(models.Model):
 #    image = models.ImageField(upload_to = 'uploads/', default = 'pics')
