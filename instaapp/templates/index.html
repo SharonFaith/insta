@@ -8,5 +8,29 @@
     </div>
 </div>
 
+{% for photo in photos %}
+<div class="col-md-2">
 
+</div>
+<div class="col-md-4">
+    <div class="card">
+        <div class="card-img-top">
+            <img src="{{photo.image.url}}" class="img-responsive" alt="Image" style="padding: 5px; width: 100%; height: 100%;">
+        </div>
+    </div>
+</div>
+{% empty %}
+            <div class="col-md-10">
+                <h2 class="text-center">Search for and follow other users to see their posts displayed here </h2>
+                <p>Some suggested users: </p>
+                <ul>
+                    {% for a_user in users %}
+                        <li>{{a_user.username</li>
+                    {% empty %}
+                        <p>No users are registered yet</p>
+                    {% endfor %}
+                </ul>
+            </div>
+
+{% endfor %}
 {% endblock %}
