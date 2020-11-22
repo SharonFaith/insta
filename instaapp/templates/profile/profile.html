@@ -38,10 +38,39 @@
             {% endif %}
            
             <hr>
-            <hr>
             
             
             
-          </div>
+            
+        </div>
+          
     </div>
+    <hr>
+    <div class="row">
+        <h2 style="text-align: center;"><strong>Posts: </strong></h2>
+           
+        {% for photo in photos %}
+            {% if photo.profile_key.id == user_profile.id %}
+
+            <div class="col-md-2">
+            
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-img-top">
+                        <img src="{{photo.image.url}}" class="img-responsive" alt="Image" style="padding: 5px; width: 100%; height: 100%;">
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <p>0 posts</p>
+            {% endif %}
+        {% empty %}
+            <p>0 posts</p>
+                
+        {% endfor %}
+          
+
+    </div>
+</div>
 {% endblock %}

@@ -37,12 +37,17 @@ def profile(request):
    current_user = request.user
    
    profiles = Profile.objects.all()
+   print(profiles)
    current_profile = None
 
+   print(current_user.id)
+
    for profile in profiles:
-      if profile.insta_user == current_user.id:
+      print(profile.insta_user)
+      if profile.insta_user == current_user:
          current_profile = profile
-   
+
+   print(current_profile)
    photos = Image.objects.all()
    #user_photos = []
 

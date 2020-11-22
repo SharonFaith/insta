@@ -1,13 +1,16 @@
 from django.test import TestCase
 from .models import Image, Profile
 import datetime as dt
+from django.contrib.auth.models import User
 # Create your tests here.
 
 class ProfileTestClass(TestCase):
 
     #set up method
     def setUp(self):
-        self.new = Profile(bio = 'this is a bio')
+        self.user1 = User(username = 'a-user')
+        self.user1.save()
+        self.new = Profile(bio = 'this is a bio', insta_user = self.user1)
 
   #  def tearDown(self):
     #    Profile.objects.all().delete()
@@ -26,7 +29,7 @@ class ProfileTestClass(TestCase):
 
     def test_delete_profile(self):
         self.new.save_profile()
-        new2 = Profile(bio = 'profile bio number 2 ')
+        new2 = Profile(bio = 'profile bio number 2 ', insta_user = self.user1)
         new2.save_profile()
 
         new2.delete_profile()
@@ -38,7 +41,7 @@ class ProfileTestClass(TestCase):
     def test_update_profile(self):
         self.new.save_profile()
         print(self.new.id)
-        new2 = Profile(bio = 'profile bio number 2 ')
+        new2 = Profile(bio = 'profile bio number 2 ',  insta_user = self.user1)
         new2.save_profile()
 
         Profile.update_profile(8, 'the new bio')
@@ -49,9 +52,12 @@ class ImageTestClass(TestCase):
 
     def setUp(self):
         # Creating a profile and saving it
-        self.new = Profile(bio = 'a bio')
+        self.user1 = User(username = 'a-user')
+        self.user1.save()
+        self.new = Profile(bio = 'a bio',  insta_user = self.user1)
         self.new.save_profile()
 
+    
        
 
         #creating instance of image
@@ -79,7 +85,7 @@ class ImageTestClass(TestCase):
         self.pic.save_image()
         image2 = Image(image_name = 'bread', image_caption= 'A  picture', profile_key = self.new, likes = 3, comments = ['hey', 'there'])
         image2.save_image()
-
+        print(image2.profile_key.id)
         image2.delete_image()
         
         images = Image.objects.all()
