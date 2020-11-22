@@ -29,7 +29,7 @@ class Image(models.Model):
     image_caption = models.TextField()
     profile_key = models.ForeignKey(Profile, on_delete=models.CASCADE)
     likes = models.IntegerField(blank =True)
-    comments = ArrayField(ArrayField(models.TextField(blank =True)))
+    comments = ArrayField(ArrayField(models.TextField()), blank =True)
 
     upload_date = models.DateTimeField(auto_now_add=True)
 
