@@ -8,7 +8,7 @@ import datetime as dt
 class Profile(models.Model):
 #    profile_pic = models.ImageField(upload_to = 'uploads/', default = 'pics')
      bio = models.TextField()
-#    uploader = maybe  to user model
+#    user = link to user model foreign key
 
 
 class Image(models.Model):
