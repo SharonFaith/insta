@@ -22,6 +22,7 @@ urlpatterns = [
     path('', include('instaapp.urls')),
     path('landing-page/', include('instaapp.urls')),
     path('profile/', include('instaapp.urls')),
+    path('upload_pic/', include('instaapp.urls')),
 #    path('search/', include('instaapp.urls')),
     path('accounts/', include('django_registration.backends.activation.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
