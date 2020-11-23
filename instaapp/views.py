@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse
-from .models import Image, Profile
+from .models import Image, Profile, UserFollowing
 import datetime as dt
+from django.db import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .forms import UploadImageForm, UpdateProfileForm, CommentForm
+from .forms import UploadImageForm, UpdateProfileForm, CommentForm, FollowForm
 # Create your views here.
 
 
@@ -24,17 +25,30 @@ def welcome(request):
 def index(request):
    current_user = request.user
    users = User.objects.all()
+   followed_users = UserFollowing.objects.all()
+   #user_key = person being followed
+   #following_user_id = user logged in who followed
+   these_users = []
+   
+   for followed_user in followed_users:
+      if followed_user.following_user_id == current_user :
+         these_users.insert(0, followed_user)
+
+   print(these_users)
 
    photos = Image.objects.all().order_by('-id')
 
-   return render(request, 'index.html', {'photos': photos, 'users': users})
+   
+
+   return render(request, 'index.html', {'photos': photos, 'users': these_users, 'all_users': users, 'current_user':current_user})
    
 
 
 @login_required(login_url='/accounts/login')
 def profile(request, id):
+
    
-  # current_user = request.user
+   logged_user = request.user
    current_user = User.objects.filter(id = id).first()
    
    profiles = Profile.objects.all()
@@ -52,11 +66,33 @@ def profile(request, id):
    if current_profile == None:
       current_profile = Profile.objects.create(insta_user= current_user)
 
+  
+   try:
+      if request.method == 'POST':
+         form = FollowForm(request.POST)
+
+         if form.is_valid():
+            userfollowing = form.save(commit=False)
+            userfollowing.user_key = current_user
+            userfollowing.following_user_id = logged_user
+            
+            userfollowing.save()
+            phrase = f'You are following {current_user}'
+         
+      else:
+         form = FollowForm()
+         phrase = ''
+   except IntegrityError as e:
+      return HttpResponse('<h1>You cannot follow a user twice</h1>')
+
+
+
+   print(UserFollowing.objects.all())
 
    photos = Image.objects.all().order_by('-id')
    pics = 'pics'
    
-   return render(request, 'profile/profile.html', {'user_profile': current_profile, 'photos': photos, 'current_user':current_user, 'pics':pics })
+   return render(request, 'profile/profile.html', {'user_profile': current_profile, 'photos': photos, 'current_user':current_user, 'pics':pics, 'form': form, 'phrase':phrase })
 
 
 @login_required(login_url='/accounts/login')
@@ -201,3 +237,4 @@ def comments(request):
 
    return render(request, 'comments.html', {'form':form, 'pic':pic})
 
+# add post method in profile view function, impoert user_following model"

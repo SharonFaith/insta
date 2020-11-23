@@ -46,3 +46,13 @@ class Image(models.Model):
     def update_caption(cls, id, updates):
         to_update = cls.objects.filter(id = id)
         to_update.update(image_caption = updates)
+        
+##
+class UserFollowing(models.Model):
+
+    user_key = models.ForeignKey(User, on_delete=models.CASCADE, default = None, related_name='following')
+
+    following_user_id = models.ForeignKey(User, on_delete=models.CASCADE, default = None, related_name='followers')
+
+    class Meta:
+        unique_together = ('user_key', 'following_user_id')

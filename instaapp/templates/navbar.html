@@ -76,7 +76,7 @@
                 </li>
                 <li>
                 <li>
-                  <a href="{% url 'profile' user.id %}" style="color: maroon;">Profile</a>
+                  <a href="{% url 'profile' user.id %}" >Profile</a>
                 </li>
                   <!--<a href="/accounts/password/change">Change Password</a>-->
                 </li>
@@ -87,6 +87,7 @@
             </li>
           </ul>
           {% else %}
+          <p></p>
           
           <li style="margin: 10px;">
             <a class='btn btn-default' href="/accounts/login">Login</a>
@@ -100,3 +101,4 @@
   </nav>
 </body>
 </html>
+<!--nO MAJOR change just colours-->

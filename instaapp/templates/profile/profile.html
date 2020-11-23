@@ -1,4 +1,6 @@
 {%extends 'base.html'%}
+{% load bootstrap3 %}
+
 
 {% block content %}
 {{block.super}}
@@ -42,6 +44,17 @@
                 <a href="{% url 'update-profile' %}"><h4>Edit profile (add/change profile pic and bio)</h4></a>
                 <hr>
                 <a href="{% url 'upload-pic' %}"><h4>Upload image (post)</h4></a>
+
+            {% else %}
+            <form action="{% url 'profile' user_profile.insta_user.id %}" method="post" enctype="multipart/form-data" style="background-color: black; margin: 15px;padding: 15px;">
+                
+                    {%csrf_token%}
+                
+                    {% bootstrap_form form%}
+                    <input type="submit" class="btn btn-primary btn-lg" value="Follow">
+                
+            </form>
+            <p>{{phrase}}</p>
             {% endif %}
            
             <hr>
@@ -110,3 +123,5 @@
 </div>
 </div>
 {% endblock %}
+
+<!--Add under edit profile section the form-->

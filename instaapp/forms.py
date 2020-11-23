@@ -1,5 +1,5 @@
 from django import forms
-from .models import Image, Profile
+from .models import Image, Profile, UserFollowing
 
 
 class UploadImageForm(forms.ModelForm):
@@ -17,3 +17,9 @@ class UpdateProfileForm(forms.ModelForm):
 
 class CommentForm(forms.Form):
     comment = forms.CharField(label = 'Add comment')
+
+##
+class FollowForm(forms.ModelForm):
+    class Meta:
+        model = UserFollowing
+        exclude = ['user_key', 'following_user_id']
