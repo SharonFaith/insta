@@ -32,9 +32,10 @@ def index(request):
 
 
 @login_required(login_url='/accounts/login')
-def profile(request):
-
-   current_user = request.user
+def profile(request, id):
+   
+  # current_user = request.user
+   current_user = User.objects.filter(id = id).first()
    
    profiles = Profile.objects.all()
  #  print(profiles)
@@ -91,7 +92,7 @@ def upload_image(request):
          image.likes = 0
          image.comments=[]
          image.save()
-      return redirect(profile)
+      return redirect(profile, id = current_user.id)
    else:
       form = UploadImageForm()
    
@@ -144,7 +145,7 @@ def update_profile(request):
          
 
 
-      return redirect(profile)
+      return redirect(profile, id = current_user.id)
    else:
       form = UpdateProfileForm()
    

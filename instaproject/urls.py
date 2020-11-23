@@ -21,7 +21,7 @@ from instaapp.views import logout_view
 urlpatterns = [
     path('', include('instaapp.urls')),
     path('landing-page/', include('instaapp.urls')),
-    path('profile/', include('instaapp.urls')),
+    path('profile/<id>/', include('instaapp.urls')),
     path('upload_pic/', include('instaapp.urls')),
     path('update-profile/', include('instaapp.urls')),
     path('search/', include('instaapp.urls')),
