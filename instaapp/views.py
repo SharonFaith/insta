@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .forms import UploadImageForm, UpdateProfileForm
+from .forms import UploadImageForm, UpdateProfileForm, CommentForm
 # Create your views here.
 
 
@@ -25,7 +25,7 @@ def index(request):
    current_user = request.user
    users = User.objects.all()
 
-   photos = Image.objects.all()
+   photos = Image.objects.all().order_by('-id')
 
    return render(request, 'index.html', {'photos': photos, 'users': users})
    
@@ -171,5 +171,33 @@ def search_results(request):
 @login_required(login_url='/accounts/login')
 def single_image(request, image_id):
    pic = Image.objects.filter(id = image_id).first()
+   print(pic.comments)
 
    return render(request, 'image.html', {'pic':pic})
+
+
+
+@login_required(login_url='/accounts/login')
+def comments(request):
+   current_user = request.user
+   profil = Profile.objects.filter(insta_user=current_user).first()
+   pic = Image.objects.filter(profile_key = profil).first()
+   print(pic)
+   pic_array = pic.comments
+
+   if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment_body = form.cleaned_data['comment']
+            pic_array.insert(0, comment_body)
+ #           pic.save()
+            print(pic.comments)
+            Image.objects.filter(profile_key = profil).update(comments = pic_array)
+            
+            return redirect(single_image, id = pic.id)
+            
+   else:
+        form = CommentForm()
+
+   return render(request, 'comments.html', {'form':form, 'pic':pic})
+

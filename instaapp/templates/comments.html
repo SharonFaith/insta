@@ -1,0 +1,16 @@
+
+{%extends 'base.html'%}
+{% load bootstrap3 %}
+
+{% block content %}
+{{block.super}}
+
+ <p>Comments: </p>
+     <p>Add a comment: </p>
+        <form action="{% url 'single-image' pic.id %}" method="post">
+            {% csrf_token %}
+                   
+            {% bootstrap_form form layout='inline' %}
+            <input type="submit" value="Post">
+    </form>
+{% endblock %}

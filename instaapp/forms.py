@@ -14,4 +14,6 @@ class UpdateProfileForm(forms.ModelForm):
         
     #profile_photo = forms.ImageField(label='add photo')
     #profile_bio = forms.CharField(label='Bio')
-    
+
+class CommentForm(forms.Form):
+    comment = forms.CharField(label = 'Add comment')
