@@ -8,7 +8,7 @@ InstaApp is a clone of instagram. Users sign in/register via an authentication s
 ## Running the app
 *  Access the app at the live site: https://app-instaapp.herokuapp.com
 
-## Installation/ Set Up Requirements
+## Installation/ Set Up
 * Use a desktop or laptop, phone or tablet.
 * To install, go to URL : https://github.com/SharonFaith/insta then clone the repository with the git clone command in the terminal
 * The repository can also be downloaded from the same URL:
