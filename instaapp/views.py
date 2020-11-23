@@ -166,3 +166,10 @@ def search_results(request):
       message = 'You have not searched for any term'
 
       return render(request, 'search.html', {'message':message})
+
+
+@login_required(login_url='/accounts/login')
+def single_image(request, id):
+   pic = Image.objects.filter(id = id).first()
+
+   return render(request, 'image.html', {'pic':pic})
