@@ -53,7 +53,7 @@ def profile(request, id):
       current_profile = Profile.objects.create(insta_user= current_user)
 
 
-   photos = Image.objects.all()
+   photos = Image.objects.all().order_by('-id')
    pics = 'pics'
    
    return render(request, 'profile/profile.html', {'user_profile': current_profile, 'photos': photos, 'current_user':current_user, 'pics':pics })

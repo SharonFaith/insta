@@ -2,10 +2,13 @@
 
 {% block content %}
 {{block.super}}
+<div class="container-fluid" style="background-color: black;">
+
+
 <div class="container" >
-    <h1 style="text-align: center;"><strong>{{current_user.username}}</strong></h1>
+    <h1 style="text-align: center; color: whitesmoke;"><strong>{{current_user.username}}</strong></h1>
     <hr>
-    <div class="row">
+    <div class="row" style="color: whitesmoke;">
         <div class="col-md-4" style="text-align: center;">
             
             <hr>
@@ -36,9 +39,9 @@
         <div class="col-md-4">
             <hr>
             {% if user == current_user %}
-                <a href="{% url 'update-profile' %}"><h4>Edit profile(add a profile pic etc)</h4></a>
+                <a href="{% url 'update-profile' %}"><h4>Edit profile (add/change profile pic and bio)</h4></a>
                 <hr>
-                <a href="{% url 'upload-pic' %}"><h4>Upload image</h4></a>
+                <a href="{% url 'upload-pic' %}"><h4>Upload image (post)</h4></a>
             {% endif %}
            
             <hr>
@@ -51,24 +54,50 @@
     </div>
     <hr>
     <div class="row">
-        <h2 style="text-align: center;"><strong>Posts: </strong></h2>
+        <h2 style="text-align: center; color: whitesmoke;"><strong>Posts: </strong></h2>
+           <br>
            
+        {% if user == current_user %}
+          <div class="text-center">
+            <a href="{% url 'upload-pic' %}" class="text-center"><h4 class=" btn btn-primary" style="color: whitesmoke;">Upload image</h4></a>
+          </div>
+           
+          
+           <br>
+       {% endif %}
         {% for photo in photos %}
             {% if photo.profile_key.id == user_profile.id %}
 
-                <div class="col-md-2">
+                
+                    <div class="col-md-12">
+                        <div class="col-md-4">
             
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-img-top">
-                            <img src="{{photo.image.url}}" class="img-responsive" alt="Image" style="padding: 5px; width: 100%; height: 100%;">
-                            <br>
-                            <p> User: {{photo.profile_key.insta_user.username}}</p>
-                            <p></p>
                         </div>
+                        <div class="col-md-4">
+                            <div class = "card" style="background-color: whitesmoke; border: whitesmoke;">
+                                <div class = "card-header text-center" style="background-color: whitesmoke;">
+                                    <img class="img-rounded"  src="{{photo.profile_key.profile_pic.url}}" style="max-width: 2em; margin-right: 10px;">
+                                    <a href="{% url 'profile' photo.profile_key.insta_user.id %}">{{photo.profile_key.insta_user.username}}</a>
+                                </div>
+                                <div class = "card-body">
+                                    <a href="{% url 'single-image' photo.id %}"><img src="{{photo.image.url}}" class="img-responsive" alt="Image" style="padding: 5px; width: 100%; height: 100%;"></a>
+                                </div>
+                                <div class="card-footer">
+                                    
+                                    <a href="{% url 'single-image' photo.id %}" class="text-center"><p>View more details</p></a>
+                                    
+                                    
+                                </div>
+                                <hr>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+            
+                        </div>
+                        
                     </div>
-                </div>
+                
            
             {% endif %}
         {% empty %}
@@ -78,5 +107,6 @@
           
 
     </div>
+</div>
 </div>
 {% endblock %}

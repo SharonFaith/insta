@@ -19,8 +19,10 @@
 </head>
 
 <body>
+    
     {% include 'navbar.html' %}
-    <form  action="{%url 'update-profile'%}" method="post" enctype="multipart/form-data">
+    <div class="container-fluid" style="background-color: black;">
+    <form  action="{%url 'update-profile'%}" method="post" enctype="multipart/form-data" style="background-color: whitesmoke; margin: 15px;padding: 15px;">
         {%csrf_token%}
     
         {% bootstrap_form form%}
@@ -30,4 +32,5 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         {% bootstrap_javascript %} 
     {% endblock %}
+    </div>
 </body>
