@@ -12,7 +12,7 @@ urlpatterns = [
     path('upload_pic/', upload_image, name='upload-pic'),
     path('update_profile/', update_profile, name='update-profile'),
     path('search/', search_results, name='search-results'),
-    path('image/<id>/', single_image, name='single-image'),
+    path('image/<image_id>/', single_image, name='single-image'),
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT) 

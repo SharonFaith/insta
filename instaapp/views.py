@@ -169,7 +169,7 @@ def search_results(request):
 
 
 @login_required(login_url='/accounts/login')
-def single_image(request, id):
-   pic = Image.objects.filter(id = id).first()
+def single_image(request, image_id):
+   pic = Image.objects.filter(id = image_id).first()
 
    return render(request, 'image.html', {'pic':pic})
