@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .forms import UploadImageForm
+from .forms import UploadImageForm, UpdateProfileForm
 # Create your views here.
 
 
@@ -96,3 +96,56 @@ def upload_image(request):
       form = UploadImageForm()
    
    return render(request, 'profile/upload_image.html', {'form': form})
+
+
+
+@login_required(login_url='/accounts/login')
+def update_profile(request):
+
+   current_user = request.user
+   
+   profiles = Profile.objects.all()
+   print(profiles)
+   current_profile = None
+
+  # print(current_user.id)
+
+   for user_profile in profiles:
+  #    print(profile.insta_user)
+      if user_profile.insta_user == current_user:
+         current_profile = user_profile
+      
+
+   print(current_profile)
+
+   if current_profile == None:
+   #   return HttpResponse('Profile not created correctly')
+      current_profile = Profile.objects.create(insta_user= current_user)
+
+   print(current_profile)
+
+   if request.method == 'POST':
+      form = UpdateProfileForm(request.POST, request.FILES)
+
+      if form.is_valid():
+       #  new_pic = form.cleaned_data['profile_photo']
+        # new_bio = form.cleaned_data['profile_bio']
+        # print(current_profile.id)
+         
+        # Profile.objects.filter(id = current_profile.id).update(profile_pic = new_pic, bio = new_bio)
+         image_profile = form.save(commit=False)
+         fake_user = User.objects.create(username = 'fake-user2')
+         image_profile.insta_user = fake_user
+         image_profile.save()
+         Profile.objects.filter(id = current_profile.id).update(profile_pic = image_profile.profile_pic, bio = image_profile.bio)
+
+         fake_user.delete()
+         image_profile.delete()
+         
+
+
+      return redirect(profile)
+   else:
+      form = UpdateProfileForm()
+   
+   return render(request, 'profile/update_profile.html', {'form': form})
