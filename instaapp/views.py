@@ -149,3 +149,19 @@ def update_profile(request):
       form = UpdateProfileForm()
    
    return render(request, 'profile/update_profile.html', {'form': form})
+
+
+#@login_required(login_url='/accounts/login')
+def search_results(request):
+   if 'uname' in request.GET and request.GET['uname']:
+      search_term = request.GET.get('uname')
+      searched_users = User.objects.filter(username__icontains= search_term)
+     
+      message = f'{search_term}'
+
+      return render(request, 'search.html', {'message':message, 'searched_users':searched_users})
+
+   else:
+      message = 'You have not searched for any term'
+
+      return render(request, 'search.html', {'message':message})
