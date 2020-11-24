@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
 {% load bootstrap3 %}
 {% block content %}
-    <h1 class="text-center">An email containing information on how to activate your account has been sent to the provided email</h1>
+    <h1 class="text-center">You have successfully created and logged in to your account. View your profile <a href="{% url 'profile' user.id %}" >here</a> or <a href="/">access your timeline directly</a> </h1>
 {% endblock %}
