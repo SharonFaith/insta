@@ -27,10 +27,10 @@ urlpatterns = [
     path('search/', include('instaapp.urls')),
     path('comment/', include('instaapp.urls')),
     path('image/<image_id>/', include('instaapp.urls')),
-    path('accounts/', include('django_registration.backends.one_step.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
-   # path('accounts/', include('django_registration.backends.activation.urls')),
+   # path('accounts/', include('django_registration.backends.one_step.urls')),
    # path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/', include('django_registration.backends.activation.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('logout/', logout_view),
     path('admin/', admin.site.urls),
 ]
