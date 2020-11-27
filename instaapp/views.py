@@ -48,11 +48,34 @@ def index(request):
 
 @login_required(login_url='/accounts/login')
 def profile(request, id):
+  
+   users = User.objects.all()
+   followed_users = UserFollowing.objects.all()
+   #user_key = person being followed
+   #following_user_id = user logged in who followed
+   
+      #if followed_user.following_user_id == current_user :
+         
 
    
    logged_user = request.user
    current_user = User.objects.filter(id = id).first()
    
+   followers = current_user.followers.all()
+
+   current_follower = None
+   print(followers)
+
+   for follower in followers:
+      if follower.user_key == logged_user:
+         print(follower)
+         current_follower = follower
+
+   
+
+
+   
+  
    profiles = Profile.objects.all()
  #  print(profiles)
    current_profile = None
@@ -72,6 +95,7 @@ def profile(request, id):
    try:
       if request.method == 'POST':
          form = FollowForm(request.POST)
+         formtrue = False
 
          if form.is_valid():
             userfollowing = form.save(commit=False)
@@ -83,6 +107,7 @@ def profile(request, id):
          
       else:
          form = FollowForm()
+         formtrue = True
          phrase = ''
    except IntegrityError as e:
       return HttpResponse('<h1>You cannot follow a user twice</h1>')
@@ -94,7 +119,7 @@ def profile(request, id):
    photos = Image.objects.all().order_by('-id')
    pics = 'pics'
    
-   return render(request, 'profile/profile.html', {'user_profile': current_profile, 'photos': photos, 'current_user':current_user, 'pics':pics, 'form': form, 'phrase':phrase })
+   return render(request, 'profile/profile.html', {'user_profile': current_profile, 'photos': photos, 'current_user':current_user, 'pics':pics, 'form': form, 'phrase':phrase, 'current_follower':current_follower, 'formtrue':formtrue })
 
 
 @login_required(login_url='/accounts/login')
@@ -219,11 +244,12 @@ def single_image(request, image_id):
    print(numberoflikes)
    the_comments = Comments.objects.all()
    comments = []
-
+   phrase = ''
      
    try:
       if request.method == 'POST':
          form = LikeForm(request.POST)
+         formtrue = False
 
          if form.is_valid():
             new_like = form.save(commit=False)
@@ -236,19 +262,31 @@ def single_image(request, image_id):
          
       else:
          form = LikeForm()
+         formtrue = True
          
    except IntegrityError as e:
-      return HttpResponse('<h1>You cannot like a picture twice</h1>')
-
-
+      phrase = 'You have already liked this image '
+      #return HttpResponse('<h1>You cannot like a picture twice</h1>')
+   current_likes =   None
   
+   likes = current_user.liked_posts.all()
+   
+   
+   print(likes)
 
+   for like in likes:
+      print(like.pic_image)
+      if like.pic_image.id == pic.id:
+         print(like)
+         current_likes = like
+
+   print(current_likes)
    for comment in the_comments:
       if comment.an_image_id == pic.id:
          comments.append(comment)
    print(comments)
 
-   return render(request, 'image.html', {'pic':pic, 'comments':comments, 'form':form, 'likes':numberoflikes})
+   return render(request, 'image.html', {'pic':pic, 'comments':comments, 'form':form, 'likes':numberoflikes, 'phrase':phrase, 'formtrue':formtrue, 'liked':current_likes})
 
 @login_required(login_url='/accounts/login')
 def single_image_comments(request):

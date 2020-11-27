@@ -22,18 +22,31 @@
                     <img src="{{pic.image.url}}" class="img-responsive" alt="Image" style="padding: 5px; width: 100%; height: 100%;">
                     <br>
                     <p> <strong>Caption:</strong>   {{pic.image_caption}}</p>
+                {% if liked %}
+                <button class="btn btn-success">Liked!</button> You liked this post
+                {% else %}
+                    {% if formtrue %}
                     <form action="{% url 'single-image' pic.id %}" method="post" enctype="multipart/form-data">
                 
                         {%csrf_token%}
                     
                         {% bootstrap_form form%}
-                        <input type="submit" class="btn btn-primary btn-lg" value="Like">
+                        <input type="submit" class="btn btn-primary btn-lg" value="Like"> &nbsp; {{phrase}}
                         
                     </form>
+                    {% else %}
+                    <button class="btn btn-success">Liked!</button>
+                    {% endif %}
+                {% endif %}
+                    
+                  
+                    <!--
+                        <button class="btn btn-success">Liked!</button>
+                   }-->
                 </div>
                 <br>
                 <div class="card-footer">
-                    <p> <strong>Likes: </strong> {% if likes %} {{likes}} {% else %} 0 {%endif%}</p>
+                    <p> <strong>Likes: </strong> {% if likes %} {{likes}} {% else %} 0 {%endif%} </p>
                    
                     
                     <p> <strong>Posted on </strong> {{pic.upload_date}}</p>

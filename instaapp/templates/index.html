@@ -42,7 +42,8 @@
         {% endfor %}
 
         {% empty %}
-                    <div class="col-md-10" style="color: white; text-align: center;">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8" style="color: white; text-align: center;">
                         <h2 class="text-center">Search for and follow other users to see their posts displayed here </h2>
                         <h3>Some suggested users: </h3>
                         <ul>
@@ -55,6 +56,8 @@
                             {% endfor %}
                         </ul>
                     </div>
+                    <br>
+                    <div class="col-md-2"></div>
 
         {% endfor %}
         {% for photo in photos %}
