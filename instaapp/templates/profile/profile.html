@@ -59,7 +59,8 @@
                         
                     </form>
                     {% else %}
-                    <h3 style="color: green;">You are following {{user_profile.insta_user.username}}</h3>
+                    <h3 style="color: green;">You are following {{user_profile.insta_user.username}} ({{phrase}})</h3>
+                    
                     {% endif %}
                 {% endif %}
             {% endif %}

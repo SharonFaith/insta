@@ -67,7 +67,9 @@ def profile(request, id):
    print(followers)
 
    for follower in followers:
-      if follower.user_key == logged_user:
+      print(follower.user_key.id)
+
+      if follower.user_key.id == logged_user.id:
          print(follower)
          current_follower = follower
 
@@ -103,7 +105,7 @@ def profile(request, id):
             userfollowing.following_user_id = logged_user
             
             userfollowing.save()
-            phrase = f'You are following {current_user}'
+            phrase = f''
          
       else:
          form = FollowForm()
@@ -114,7 +116,7 @@ def profile(request, id):
 
 
 
-   print(UserFollowing.objects.all())
+   #print(UserFollowing.objects.all())
 
    photos = Image.objects.all().order_by('-id')
    pics = 'pics'
