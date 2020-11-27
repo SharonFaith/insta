@@ -110,7 +110,7 @@ def profile(request, id):
          formtrue = True
          phrase = ''
    except IntegrityError as e:
-      return HttpResponse('<h1>You cannot follow a user twice</h1>')
+         phrase = 'You cannot follow a user twice'
 
 
 
