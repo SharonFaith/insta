@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from django.http import Http404, HttpResponse
-from .models import Image, Profile, UserFollowing
+from django.http import Http404, HttpResponse, HttpResponseRedirect
+from .models import Image, Profile, UserFollowing, Comments
 import datetime as dt
 from django.db import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
@@ -37,6 +37,8 @@ def index(request):
    print(these_users)
 
    photos = Image.objects.all().order_by('-id')
+
+  
 
    
 
@@ -207,34 +209,60 @@ def search_results(request):
 @login_required(login_url='/accounts/login')
 def single_image(request, image_id):
    pic = Image.objects.filter(id = image_id).first()
-   print(pic.comments)
+  
 
-   return render(request, 'image.html', {'pic':pic})
+   the_comments = Comments.objects.all()
+   comments = []
 
+   for comment in the_comments:
+      if comment.an_image_id == pic.id:
+         comments.append(comment)
+   print(comments)
+
+   return render(request, 'image.html', {'pic':pic, 'comments':comments})
+
+@login_required(login_url='/accounts/login')
+def single_image_comments(request):
+   #pic = Image.objects.filter(id = image_id).first()
+
+   #print(pic.comments)
+
+   #return render(request, 'imageaftercomment.html', {'pic':pic})
+
+   return redirect(single_image, image_id = single_image_id )
 
 
 @login_required(login_url='/accounts/login')
-def comments(request):
+def comments(request, id_image):
    current_user = request.user
-   profil = Profile.objects.filter(insta_user=current_user).first()
-   pic = Image.objects.filter(profile_key = profil).first()
-   print(pic)
-   pic_array = pic.comments
-
+   
+         
+   pic_id = id_image
+   print(pic_id)
    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment_body = form.cleaned_data['comment']
-            pic_array.insert(0, comment_body)
- #           pic.save()
-            print(pic.comments)
-            Image.objects.filter(profile_key = profil).update(comments = pic_array)
+         formtrue = False
+         form = CommentForm(request.POST)
+         if form.is_valid():
             
-            return redirect(single_image, id = pic.id)
+            comment = form.save(commit=False)
+            comment.an_image_id = id_image
+            comment.save()
+            print(comment)
+            #image_id = None
+            
+            
+         #return redirect(single_image_comments)
+            #return HttpResponseRedirect(next)
             
    else:
         form = CommentForm()
+        formtrue = True
 
-   return render(request, 'comments.html', {'form':form, 'pic':pic})
+   return render(request, 'comments.html', {'form':form, 'imageid':id_image, 'formtrue':formtrue})
+
 
 # add post method in profile view function, impoert user_following model"
+
+
+
+   

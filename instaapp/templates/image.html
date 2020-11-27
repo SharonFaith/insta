@@ -29,15 +29,15 @@
                     <p> <strong>Posted on </strong> {{pic.upload_date}}</p>
 
                    <p>Comments: </p>
-                   <a href=""><p>Add a comment </p></a>
+                   <a href="{% url 'add-comment' pic.id %}"><p>Add a comment </p></a>
                     
-                    {% if pic.comments %}
-                        {% for comment in pic.comments %}
-                            <li>{{comment}}</li>
-                        {% endfor %}
-                    {% else %}
+                    
+                        {% for comment in comments %}
+                            <li>{{comment.comment_body}}</li>
+                        {% empty %}
                             <p>No comments yet</p>
-                    {% endif %}
+                        {% endfor %}
+                 
                 
                 </div>
             </div>
