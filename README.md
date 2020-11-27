@@ -1,4 +1,4 @@
-#  INSTAAPP
+#  INSTAAPP(STILL IN PROGRESS, NOT YET COMPLETED)
 #### A web application
 #### By **Sharon Faith**
 ## Description
