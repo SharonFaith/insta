@@ -24,7 +24,7 @@ class Profile(models.Model):
         to_update.update(bio = updates)
 
 class Image(models.Model):
-    image = models.ImageField(upload_to = 'uploads/', default = 'pics')
+    image = models.ImageField(upload_to = 'uploads/', default = 'uploads/harp_b1l0RNq.jpeg')
     image_name = models.CharField(max_length=60)
     image_caption = models.TextField()
     profile_key = models.ForeignKey(Profile, on_delete=models.CASCADE)
@@ -56,3 +56,7 @@ class UserFollowing(models.Model):
 
     class Meta:
         unique_together = ('user_key', 'following_user_id')
+
+class Comments(models.Model):
+    comment_body = models.TextField()
+    an_image_id = models.IntegerField()

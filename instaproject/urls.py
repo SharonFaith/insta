@@ -25,9 +25,11 @@ urlpatterns = [
     path('upload_pic/', include('instaapp.urls')),
     path('update-profile/', include('instaapp.urls')),
     path('search/', include('instaapp.urls')),
-    path('comment/', include('instaapp.urls')),
+    path('comment/<id_image>/', include('instaapp.urls')),
+    path('singleid/<single_image_id>/', include('instaapp.urls')),
     path('image/<image_id>/', include('instaapp.urls')),
-
+   # path('accounts/', include('django_registration.backends.one_step.urls')),
+   # path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('django_registration.backends.activation.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('logout/', logout_view),

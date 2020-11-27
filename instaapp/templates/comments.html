@@ -5,12 +5,19 @@
 {% block content %}
 {{block.super}}
 
- <p>Comments: </p>
-     <p>Add a comment: </p>
-        <form action="{% url 'single-image' pic.id %}" method="post">
-            {% csrf_token %}
-                   
-            {% bootstrap_form form layout='inline' %}
-            <input type="submit" value="Post">
+    {% if formtrue %}
+        
+     <h3 class='text-center'><strong> Add a comment: </strong></h3>
+     <form action="{% url 'add-comment' imageid  %}" method="post" enctype="multipart/form-data" style="background-color: black; margin: 15px;padding: 15px;">
+                
+        {%csrf_token%}
+    
+        {% bootstrap_form form%}
+        <input type="submit" class="btn btn-primary btn-lg" value="Add">
+    
     </form>
+    
+    {% else %}
+    <p>Your comment has been added. Click <a href="{% url 'single-image' imageid %}">here</a> to view the comments</p>
+    {% endif %}
 {% endblock %}
