@@ -1,5 +1,5 @@
 from django import forms
-from .models import Image, Profile, UserFollowing, Comments
+from .models import Image, Profile, UserFollowing, Comments, Like
 
 
 class UploadImageForm(forms.ModelForm):
@@ -25,3 +25,9 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comments
         exclude = ['an_image_id']
+    
+
+class LikeForm(forms.ModelForm):
+    class Meta:
+        model = Like
+        exclude = ['user', 'pic_image']

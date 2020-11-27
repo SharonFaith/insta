@@ -60,3 +60,10 @@ class UserFollowing(models.Model):
 class Comments(models.Model):
     comment_body = models.TextField()
     an_image_id = models.IntegerField()
+
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='liked_posts', default=None)
+    pic_image = models.ForeignKey(Image, on_delete=models.CASCADE, related_name='numlikes', default=None)
+    
+    class Meta:
+        unique_together = ('user', 'pic_image')

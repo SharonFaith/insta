@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse, HttpResponseRedirect
-from .models import Image, Profile, UserFollowing, Comments
+from .models import Image, Profile, UserFollowing, Comments, Like
 import datetime as dt
 from django.db import IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .forms import UploadImageForm, UpdateProfileForm, CommentForm, FollowForm
+from .forms import UploadImageForm, UpdateProfileForm, CommentForm, FollowForm, LikeForm
 # Create your views here.
 
 
@@ -121,6 +121,8 @@ def upload_image(request):
 
    print(current_profile)
 
+   
+
    if request.method == 'POST':
       form = UploadImageForm(request.POST, request.FILES)
 
@@ -208,18 +210,45 @@ def search_results(request):
 
 @login_required(login_url='/accounts/login')
 def single_image(request, image_id):
-   pic = Image.objects.filter(id = image_id).first()
-  
+   current_user = request.user
 
+   pic = Image.objects.filter(id = image_id).first()
+   numberoflikes = pic.numlikes.all().count()
+   likemodel = Like.objects.all()
+   print(likemodel)
+   print(numberoflikes)
    the_comments = Comments.objects.all()
    comments = []
+
+     
+   try:
+      if request.method == 'POST':
+         form = LikeForm(request.POST)
+
+         if form.is_valid():
+            new_like = form.save(commit=False)
+            new_like.user = current_user
+            new_like.pic_image = pic
+            
+            new_like.save()
+            #phrase = f'You are following {current_user}'
+            numberoflikes = pic.numlikes.all().count()
+         
+      else:
+         form = LikeForm()
+         
+   except IntegrityError as e:
+      return HttpResponse('<h1>You cannot like a picture twice</h1>')
+
+
+  
 
    for comment in the_comments:
       if comment.an_image_id == pic.id:
          comments.append(comment)
    print(comments)
 
-   return render(request, 'image.html', {'pic':pic, 'comments':comments})
+   return render(request, 'image.html', {'pic':pic, 'comments':comments, 'form':form, 'likes':numberoflikes})
 
 @login_required(login_url='/accounts/login')
 def single_image_comments(request):

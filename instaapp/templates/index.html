@@ -23,7 +23,7 @@
                                     <a href="{% url 'single-image' photo.id %}"><img src="{{photo.image.url}}" class="img-responsive" alt="Image" style="padding: 5px; width: 100%; height: 100%;"></a>
                                 </div>
                                 <div class="card-footer">
-                                    <p> <strong>Likes: </strong> {{photo.likes}}</p>
+                                   
                                     <a href="{% url 'single-image' photo.id %}"><p>View more details</p></a>
                                     <p><strong>Posted on </strong> {{photo.upload_date}}</p>
                                     
@@ -74,7 +74,7 @@
                             <a href="{% url 'single-image' photo.id %}"><img src="{{photo.image.url}}" class="img-responsive" alt="Image" style="padding: 5px; width: 100%; height: 100%;"></a>
                         </div>
                         <div class="card-footer">
-                            <p> <strong>Likes: </strong> {{photo.likes}}</p>
+                            
                             <a href="{% url 'single-image' photo.id %}"><p>View more details</p></a>
                             <p><strong>Posted on </strong> {{photo.upload_date}}</p>
                             
