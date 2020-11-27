@@ -6,7 +6,7 @@ InstaApp is a clone of instagram. Users sign in/register via an authentication s
 
 
 ## Running the app
-*  Access the app at the live site: 
+*  Access the app at the live site: https://app-instaapp.herokuapp.com/
 
 ## Installation/ Set Up
 * Use a desktop or laptop, phone or tablet.
