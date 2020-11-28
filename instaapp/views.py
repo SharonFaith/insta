@@ -64,14 +64,16 @@ def profile(request, id):
    followers = current_user.followers.all()
 
    current_follower = None
-   print(followers)
+  
+
+   #print(current_user.following_user_id)
 
    for follower in followers:
       print(follower.user_key.id)
 
       if follower.user_key.id == logged_user.id:
          print(follower)
-         current_follower = follower
+         #current_follower = follower
 
    
 
@@ -105,7 +107,7 @@ def profile(request, id):
             userfollowing.following_user_id = logged_user
             
             userfollowing.save()
-            phrase = f''
+            phrase = f'You are following {current_user}'
          
       else:
          form = FollowForm()
@@ -114,7 +116,12 @@ def profile(request, id):
    except IntegrityError as e:
          phrase = 'You cannot follow a user twice'
 
-
+   for followed_user in followed_users:
+      if followed_user.following_user_id == logged_user and followed_user.user_key == current_user:
+         print(followed_user)
+         current_follower = followed_user
+         #if followed_user.user_key == current_user:
+            #print(followed_user)
 
    #print(UserFollowing.objects.all())
 
